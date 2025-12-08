@@ -5,7 +5,7 @@
 ### Basic Usage
 
 ```jsx
-import BalochistanDoctorMap from './components/BalochistanDoctorMap';
+import BalochistanDoctorMap from "./components/BalochistanDoctorMap";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ The `<BalochistanDoctorMap />` component is a self-contained, fully-featured map
 Currently, the component has no props. You can extend it to accept:
 
 ```jsx
-<BalochistanDoctorMap 
+<BalochistanDoctorMap
   data={customDoctorData}
   colorScheme="purple"
   zoom={6.5}
@@ -45,11 +45,13 @@ Currently, the component has no props. You can extend it to accept:
 ## Replacing the GeoJSON URL
 
 ### Current Implementation
+
 Uses estimated coordinates for each district with circular markers.
 
 ### To Use Real GeoJSON Boundaries:
 
 **Step 1**: Get a GeoJSON file
+
 - Download from: https://github.com/your-source/balochistan.geojson
 - Or create your own using QGIS or other GIS tools
 - Place in `/public/balochistan-districts.geojson`
@@ -59,13 +61,14 @@ Uses estimated coordinates for each district with circular markers.
 In `src/components/BalochistanDoctorMap.jsx`, find this line (around line 62):
 
 ```javascript
-const geoJsonUrl = 'https://raw.githubusercontent.com/example/balochistan-geojson/main/districts.json';
+const geoJsonUrl =
+  "https://raw.githubusercontent.com/example/balochistan-geojson/main/districts.json";
 ```
 
 Replace with:
 
 ```javascript
-const geoJsonUrl = '/balochistan-districts.geojson';
+const geoJsonUrl = "/balochistan-districts.geojson";
 ```
 
 **Step 3**: Uncomment the GeoJSON loading code
@@ -74,14 +77,14 @@ Find the commented section (lines 147-185) and uncomment it:
 
 ```javascript
 fetch(geoJsonUrl)
-  .then(response => response.json())
-  .then(geojson => {
+  .then((response) => response.json())
+  .then((geojson) => {
     // Add district boundaries as a layer
-    map.current.addSource('districts', {
-      type: 'geojson',
-      data: geojson
+    map.current.addSource("districts", {
+      type: "geojson",
+      data: geojson,
     });
-    
+
     // ... rest of the code
   });
 ```
@@ -113,7 +116,7 @@ Your GeoJSON features should have a `name` property that matches the district na
 
 ## Matching District Names
 
-The component automatically matches `doctorData.district` to GeoJSON feature names. 
+The component automatically matches `doctorData.district` to GeoJSON feature names.
 
 ### Name Matching Logic
 
@@ -133,7 +136,7 @@ If names don't match exactly, add a mapping function:
 
 ```javascript
 const districtNameMap = {
-  "Quetta": "Quetta District",
+  Quetta: "Quetta District",
   "Dera Murad Jamali": "Nasirabad",
   // Add mappings here
 };
@@ -155,10 +158,11 @@ In `BalochistanDoctorMap.jsx`, find this section (around line 95):
 // Color intensity based on doctor count
 const opacity = 0.3 + (doctors / maxDoctors) * 0.7;
 markerEl.style.backgroundColor = `rgba(139, 92, 246, ${opacity})`;
-markerEl.style.border = '3px solid rgb(124, 58, 237)';
+markerEl.style.border = "3px solid rgb(124, 58, 237)";
 ```
 
 Change the RGB values:
+
 - `139, 92, 246` = Purple (main color)
 - `124, 58, 237` = Dark purple (border)
 
@@ -175,22 +179,23 @@ In `BalochistanDoctorMap.css`:
 /* Header/Footer */
 .map-header {
   background: rgba(30, 27, 75, 0.95);
-  border-bottom: 3px solid #8b5cf6;  /* Purple accent */
+  border-bottom: 3px solid #8b5cf6; /* Purple accent */
 }
 
 /* Legend colors */
 .legend-circle.small {
-  background-color: rgba(139, 92, 246, 0.4);  /* Light purple */
+  background-color: rgba(139, 92, 246, 0.4); /* Light purple */
 }
 
 .legend-circle.large {
-  background-color: rgba(139, 92, 246, 0.9);  /* Dark purple */
+  background-color: rgba(139, 92, 246, 0.9); /* Dark purple */
 }
 ```
 
 ### Color Palette Reference
 
 Current purple theme:
+
 - `#1e1b4b` - Dark blue-purple (background)
 - `#312e81` - Medium purple (gradient)
 - `#8b5cf6` - Bright purple (accents)
@@ -217,14 +222,15 @@ const doctorData = [
 ```javascript
 const districtCoordinates = {
   // Existing coordinates...
-  "Gwadar": [62.3250, 25.1264],
-  "Loralai": [68.5978, 30.3704],
+  Gwadar: [62.325, 25.1264],
+  Loralai: [68.5978, 30.3704],
 };
 ```
 
 ### Step 3: Component auto-updates
 
 The map will automatically:
+
 - Create markers for new districts
 - Recalculate circle sizes
 - Update total counts in footer
@@ -260,20 +266,29 @@ npm run build
 ## Troubleshooting
 
 ### Map doesn't load
+
 - Check browser console for errors
 - Ensure MapLibre GL JS is installed: `npm list maplibre-gl`
 - Verify internet connection (needs tile downloads)
 
 ### Districts don't match
+
 - Check district name spelling in `doctorData`
 - Compare with GeoJSON `name` property
 - Add console.log to debug:
   ```javascript
-  console.log('Doctor data:', doctorData.map(d => d.district));
-  console.log('GeoJSON names:', geojson.features.map(f => f.properties.name));
+  console.log(
+    "Doctor data:",
+    doctorData.map((d) => d.district)
+  );
+  console.log(
+    "GeoJSON names:",
+    geojson.features.map((f) => f.properties.name)
+  );
   ```
 
 ### Markers are too small/large
+
 - Adjust `baseSize` and `maxSize` in component
 - Change the scaling formula:
   ```javascript
@@ -281,6 +296,7 @@ npm run build
   ```
 
 ### Tooltips not showing
+
 - Ensure MapLibre GL CSS is imported
 - Check z-index in custom CSS
 - Verify popup HTML structure
@@ -293,8 +309,8 @@ npm run build
 
 ```typescript
 interface DoctorData {
-  district: string;  // District name (must match GeoJSON)
-  doctors: number;   // Number of doctors (positive integer)
+  district: string; // District name (must match GeoJSON)
+  doctors: number; // Number of doctors (positive integer)
 }
 ```
 

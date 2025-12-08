@@ -55,7 +55,7 @@ To use actual district boundary polygons:
 4. Update the `geoJsonUrl` variable:
 
 ```javascript
-const geoJsonUrl = '/balochistan-districts.geojson';
+const geoJsonUrl = "/balochistan-districts.geojson";
 ```
 
 ### Updating Doctor Data
@@ -73,7 +73,8 @@ const doctorData = [
 ### Changing the Color Theme
 
 Customize colors in `src/components/BalochistanDoctorMap.css`:
-- Marker colors: `.doctor-marker` 
+
+- Marker colors: `.doctor-marker`
 - Background: `.map-container-wrapper`
 - Headers: `.map-header`
 
