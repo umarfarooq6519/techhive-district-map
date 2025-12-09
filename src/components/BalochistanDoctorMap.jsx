@@ -40,29 +40,19 @@ const BalochistanDoctorMap = () => {
   useEffect(() => {
     if (map.current) return; // Initialize map only once
 
-    // Initialize the map
+    // Initialize the map with plain background (no tiles)
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      // Using OpenStreetMap tiles via MapTiler (free tier)
-      // Replace this with your preferred tile provider URL
       style: {
         version: 8,
-        sources: {
-          osm: {
-            type: "raster",
-            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-            tileSize: 256,
-            attribution: "&copy; OpenStreetMap Contributors",
-            maxzoom: 19,
-          },
-        },
+        sources: {},
         layers: [
           {
-            id: "osm",
-            type: "raster",
-            source: "osm",
-            minzoom: 0,
-            maxzoom: 22,
+            id: "background",
+            type: "background",
+            paint: {
+              "background-color": "#f5f5f5", // Light gray background
+            },
           },
         ],
       },
@@ -71,13 +61,40 @@ const BalochistanDoctorMap = () => {
     });
 
     map.current.on("load", () => {
-      // TODO: Replace this placeholder URL with actual Balochistan GeoJSON
-      // You can host your own GeoJSON file or use a public dataset
-      // Example: '/balochistan-districts.geojson' or a public URL
-      // const geoJsonUrl = 'https://raw.githubusercontent.com/example/balochistan-geojson/main/districts.json';
+      // Load Balochistan GeoJSON for district boundaries
+      fetch("/Balochistan.geojson")
+        .then((response) => response.json())
+        .then((geojson) => {
+          // Add district boundaries as a source
+          map.current.addSource("districts", {
+            type: "geojson",
+            data: geojson,
+          });
 
-      // For demo purposes, we'll add markers directly at estimated coordinates
-      // In production, you would load the actual GeoJSON and extract centroids
+          // Add district fill layer with color based on district
+          map.current.addLayer({
+            id: "district-fills",
+            type: "fill",
+            source: "districts",
+            paint: {
+              "fill-color": "#81c784", // Green fill for districts
+              "fill-opacity": 0.4,
+            },
+          });
+
+          // Add district boundary lines
+          map.current.addLayer({
+            id: "district-boundaries",
+            type: "line",
+            source: "districts",
+            paint: {
+              "line-color": "#2d5016", // Dark green for boundaries
+              "line-width": 1.5,
+              "line-opacity": 0.8,
+            },
+          });
+        })
+        .catch((error) => console.error("Error loading GeoJSON:", error));
 
       // Estimated coordinates for each district (these should come from your GeoJSON)
       const districtCoordinates = {
@@ -164,52 +181,6 @@ const BalochistanDoctorMap = () => {
           popup.remove();
         });
       });
-
-      /*
-       * OPTIONAL: Load actual GeoJSON districts
-       * Uncomment this section when you have a real GeoJSON file
-       *
-       * fetch(geoJsonUrl)
-       *   .then(response => response.json())
-       *   .then(geojson => {
-       *     // Add district boundaries as a layer
-       *     map.current.addSource('districts', {
-       *       type: 'geojson',
-       *       data: geojson
-       *     });
-       *
-       *     map.current.addLayer({
-       *       id: 'district-boundaries',
-       *       type: 'line',
-       *       source: 'districts',
-       *       paint: {
-       *         'line-color': '#8b5cf6',
-       *         'line-width': 2,
-       *         'line-opacity': 0.8
-       *       }
-       *     });
-       *
-       *     // Add district fills with color based on doctor count
-       *     map.current.addLayer({
-       *       id: 'district-fills',
-       *       type: 'fill',
-       *       source: 'districts',
-       *       paint: {
-       *         'fill-color': [
-       *           'match',
-       *           ['get', 'name'], // Assuming the GeoJSON has a 'name' property
-       *           'Quetta', '#8b5cf6',
-       *           'Kharan', '#a78bfa',
-       *           'Naseerabad', '#a78bfa',
-       *           'Chaman', '#a78bfa',
-       *           '#c4b5fd' // default color for districts with 1 doctor
-       *         ],
-       *         'fill-opacity': 0.3
-       *       }
-       *     });
-       *   })
-       *   .catch(error => console.error('Error loading GeoJSON:', error));
-       */
     });
 
     // Cleanup on unmount
