@@ -46,40 +46,20 @@ Open http://localhost:5173 to view the app.
 npm run build
 ```
 
-## Map Style
+## Customization
 
-The map now uses a **plain district-based style** instead of OpenStreetMap tiles:
+### Using Real GeoJSON Data
 
-- **Background**: Light gray (`#f5f5f5`)
-- **Districts**: Green fill (`#81c784`) with 40% opacity
-- **Boundaries**: Dark green lines (`#2d5016`)
-- **Performance**: Faster loading, no external tile dependencies
+To use actual district boundary polygons:
 
-### Quick Customization
+1. Obtain a GeoJSON file with Balochistan district boundaries
+2. Place it in `/public/balochistan-districts.geojson`
+3. Uncomment the GeoJSON loading code in `BalochistanDoctorMap.jsx` (lines 147-185)
+4. Update the `geoJsonUrl` variable:
 
-See `QUICK_CUSTOMIZATION.md` for 30-second color changes!
-
-**Change background color** (Line ~52 in `BalochistanDoctorMap.jsx`):
 ```javascript
-"background-color": "#f5f5f5"  // Change to white, blue, etc.
+const geoJsonUrl = "/balochistan-districts.geojson";
 ```
-
-**Change district fill** (Line ~75):
-```javascript
-"fill-color": "#81c784"  // Try #64b5f6 (blue), #a78bfa (purple)
-"fill-opacity": 0.4      // 0.0 (transparent) to 1.0 (solid)
-```
-
-**Change boundary lines** (Line ~84):
-```javascript
-"line-color": "#2d5016"  // Border color
-"line-width": 1.5        // Thickness (try 2 or 3)
-```
-
-For detailed customization options, see:
-- `PLAIN_MAP_IMPLEMENTATION.md` - Complete guide
-- `QUICK_CUSTOMIZATION.md` - Quick reference
-- `CHANGES_SUMMARY.md` - What changed
 
 ### Updating Doctor Data
 
@@ -107,9 +87,9 @@ const districtColors = {
 
 ### Changing UI Theme
 
-Customize UI colors in `src/components/BalochistanDoctorMap.css`:
+Customize colors in `src/components/BalochistanDoctorMap.css`:
 
-- Header/footer: `.map-header`, `.map-footer`
+- Marker colors: `.doctor-marker`
 - Background: `.map-container-wrapper`
 - Legend: `.map-legend`
 

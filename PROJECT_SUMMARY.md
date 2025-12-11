@@ -5,7 +5,6 @@
 ### Components Created
 
 1. **BalochistanDoctorMap.jsx** (`src/components/`)
-
    - Main React component with MapLibre GL JS integration
    - Doctor data embedded as array of objects
    - Interactive map with circular markers sized by doctor count
@@ -38,21 +37,18 @@
 ## 🎨 Design Features
 
 ### Visual Theme
-
 - **Color Scheme**: Professional purple (`#8b5cf6`, `#a78bfa`, `#c4b5fd`)
 - **Background**: Dark blue-purple gradient
 - **Markers**: Semi-transparent circles with borders
 - **Typography**: Clean, modern sans-serif
 
 ### Interactivity
-
 - ✅ Pan and zoom map controls
 - ✅ Hover to see tooltips
 - ✅ Animated marker scaling on hover
 - ✅ Responsive layout
 
 ### Data Visualization
-
 - Circle size proportional to doctor count
 - Quetta (14 doctors) stands out prominently
 - Color opacity scales with doctor count
@@ -79,7 +75,6 @@ const doctorData = [
 ```
 
 **Stats:**
-
 - 11 districts total
 - 28 doctors total
 - Range: 1-14 doctors per district
@@ -90,21 +85,18 @@ const doctorData = [
 ## 🗺️ Map Implementation
 
 ### Current Approach
-
 Uses **estimated coordinates** for each district center with circular markers.
 
 ### Coordinates Provided
-
 ```javascript
 const districtCoordinates = {
-  Quetta: [66.975, 30.183],
-  Panjgur: [64.095, 26.97],
+  "Quetta": [66.9750, 30.1830],
+  "Panjgur": [64.0950, 26.9700],
   // ... 9 more districts
 };
 ```
 
 ### GeoJSON Integration (Ready to Enable)
-
 - Code is included but commented out (lines 145-183)
 - Instructions provided in comments
 - Can be enabled by:
@@ -116,12 +108,12 @@ const districtCoordinates = {
 
 ## 🛠️ Technical Stack
 
-| Technology     | Version | Purpose                 |
-| -------------- | ------- | ----------------------- |
-| React          | 19.2.0  | UI Framework            |
-| Vite           | 7.2.4   | Build tool & dev server |
-| MapLibre GL JS | 4.x     | Mapping library         |
-| OpenStreetMap  | -       | Map tiles (free)        |
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 19.2.0 | UI Framework |
+| Vite | 7.2.4 | Build tool & dev server |
+| MapLibre GL JS | 4.x | Mapping library |
+| OpenStreetMap | - | Map tiles (free) |
 
 ---
 
@@ -177,7 +169,7 @@ npm run build
 ✅ **GeoJSON placeholder** - Code ready, just needs real file  
 ✅ **Automatic matching** - District names from data → coordinates  
 ✅ **Clean code** - Comments, organized, production-ready  
-✅ **Responsive design** - Works on mobile & desktop
+✅ **Responsive design** - Works on mobile & desktop  
 
 ### Bonus Features Added
 
@@ -187,28 +179,25 @@ npm run build
 🎁 **Hover animations** - Markers scale on hover  
 🎁 **Doctor count labels** - Numbers inside circles  
 🎁 **Documentation** - README + Integration Guide  
-🎁 **Zero errors** - Passes ESLint checks
+🎁 **Zero errors** - Passes ESLint checks  
 
 ---
 
 ## 🎯 Next Steps (Optional)
 
 ### To Use Real GeoJSON:
-
 1. Get Balochistan district boundaries (GeoJSON format)
 2. Place in `/public/balochistan-districts.geojson`
 3. Uncomment lines 145-183 in `BalochistanDoctorMap.jsx`
 4. Update `geoJsonUrl` to `/balochistan-districts.geojson`
 
 ### To Customize:
-
 - **Colors**: Edit CSS variables in `BalochistanDoctorMap.css`
 - **Data**: Update `doctorData` array in component
 - **Sizing**: Adjust `baseSize` and `maxSize` variables
 - **Map center/zoom**: Change `center` and `zoom` in map config
 
 ### To Enhance:
-
 - Add filters (e.g., show only districts with <5 doctors)
 - Add search functionality
 - Export data as CSV
