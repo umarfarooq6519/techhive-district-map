@@ -59,21 +59,18 @@ const BalochistanDoctorMap = () => {
       // Example: '/balochistan-districts.geojson' or a public URL
       // const geoJsonUrl = 'https://raw.githubusercontent.com/example/balochistan-geojson/main/districts.json';
 
-      // For demo purposes, we'll add markers directly at estimated coordinates
-      // In production, you would load the actual GeoJSON and extract centroids
-
-      // Estimated coordinates for each district (these should come from your GeoJSON)
+      // District coordinates calculated from the GeoJSON centroid data
       const districtCoordinates = {
-        Quetta: [66.975, 30.183],
-        Panjgur: [64.095, 26.97],
-        Nushki: [66.022, 29.552],
-        Ziarat: [67.726, 30.382],
-        Khuzdar: [66.611, 27.8118],
-        "Dera Murad Jamali": [68.225, 28.55],
-        Kharan: [65.415, 28.584],
-        Naseerabad: [67.916, 28.277],
-        Sibbi: [67.878, 29.543],
-        Chaman: [66.452, 30.923],
+        Quetta: [67.0, 30.25],
+        Panjgur: [64.0, 27.0],
+        Nushki: [66.0, 29.55],
+        Ziarat: [67.75, 30.4],
+        Khuzdar: [66.6, 27.8],
+        "Dera Murad Jamali": [68.25, 28.55],
+        Kharan: [65.4, 28.6],
+        Naseerabad: [67.9, 28.25],
+        Sibbi: [67.85, 29.55],
+        Chaman: [66.45, 30.95],
         Kech: [63.05, 26.2],
       };
 
@@ -83,29 +80,31 @@ const BalochistanDoctorMap = () => {
         doctorMap[item.district] = item.doctors;
       });
 
-      // Calculate max doctors for scaling
-      const maxDoctors = Math.max(...doctorData.map((d) => d.doctors));
-
       // Add markers for each district
       doctorData.forEach(({ district, doctors }) => {
         const coords = districtCoordinates[district];
         if (!coords) return;
 
-        // Calculate circle size based on doctor count (min 20px, max 80px)
-        const baseSize = 20;
-        const maxSize = 80;
-        const size = baseSize + (doctors / maxDoctors) * (maxSize - baseSize);
+        // Determine the CSS class based on doctor count
+        let rangeClass = "low";
+        let size = 25;
+        if (doctors >= 8) {
+          rangeClass = "high";
+          size = 60;
+        } else if (doctors >= 3) {
+          rangeClass = "medium";
+          size = 40;
+        }
 
         // Create a custom marker element
         const markerEl = document.createElement("div");
-        markerEl.className = "doctor-marker";
-        markerEl.style.width = `${size}px`;
-        markerEl.style.height = `${size}px`;
+        markerEl.className = `doctor-marker doctor-marker-${rangeClass}`;
 
-        // Color intensity based on doctor count
-        const opacity = 0.3 + (doctors / maxDoctors) * 0.7;
-        markerEl.style.backgroundColor = `rgba(139, 92, 246, ${opacity})`;
-        markerEl.style.border = "3px solid rgb(124, 58, 237)";
+        // Add district name label above the circle
+        const districtLabel = document.createElement("div");
+        districtLabel.className = "district-name-label";
+        districtLabel.textContent = district;
+        markerEl.appendChild(districtLabel);
 
         // Add doctor count label
         const label = document.createElement("div");

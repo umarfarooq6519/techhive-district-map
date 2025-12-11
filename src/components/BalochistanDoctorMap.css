@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
 }
 
@@ -48,13 +48,53 @@
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 6px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  opacity: 0.8;
+}
+
+.doctor-marker-low {
+  width: 25px;
+  height: 25px;
+  background-color: rgba(34, 197, 94, 0.8);
+  border: 3px solid rgb(22, 163, 74);
+}
+
+.doctor-marker-medium {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(234, 179, 8, 0.8);
+  border: 3px solid rgb(202, 138, 4);
+}
+
+.doctor-marker-high {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(220, 38, 38, 0.8);
+  border: 3px solid rgb(185, 28, 28);
 }
 
 .doctor-marker:hover {
   transform: scale(1.15);
   box-shadow: 0 8px 16px rgba(139, 92, 246, 0.6);
   z-index: 10;
+}
+
+.district-name-label {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  user-select: none;
+  pointer-events: none;
 }
 
 .doctor-count-label {
@@ -130,21 +170,24 @@
 }
 
 .legend-circle.small {
-  width: 20px;
-  height: 20px;
-  background-color: rgba(139, 92, 246, 0.4);
+  width: 25px;
+  height: 25px;
+  background-color: rgba(34, 197, 94, 0.8);
+  border-color: rgb(22, 163, 74);
 }
 
 .legend-circle.medium {
-  width: 35px;
-  height: 35px;
-  background-color: rgba(139, 92, 246, 0.6);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(234, 179, 8, 0.8);
+  border-color: rgb(202, 138, 4);
 }
 
 .legend-circle.large {
-  width: 50px;
-  height: 50px;
-  background-color: rgba(139, 92, 246, 0.9);
+  width: 60px;
+  height: 60px;
+  background-color: rgba(220, 38, 38, 0.8);
+  border-color: rgb(185, 28, 28);
 }
 
 /* Footer Styles */
@@ -197,17 +240,17 @@
   }
 
   .legend-circle.small {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
   }
 
   .legend-circle.medium {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
 
   .legend-circle.large {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
   }
 }
